@@ -10,14 +10,14 @@ const port = 3000;
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
-    console.log('New client connected');
+    console.log('Nuevo cliente conectado');
     socket.on('message', (message) => {
         console.log('Received message =>', message);
         socket.broadcast.emit('message', message);
     });
 
     socket.on('disconnect', () => {
-        console.log('Client disconnected');
+        console.log('Cliente desconectado');
     });
 });
 

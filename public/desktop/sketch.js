@@ -1,13 +1,14 @@
 let song;
 let fft;
-let fusion = false;
 let socket;
 
 let hueShift = 0;
 let rotationAngles = [0, 0, 0];
 let baseRadius = 140;
 let spacing = 90;
-let transition = 0; // 0 = tres anillos, 1 = uno solo
+let fusionValue = 0; // 0 = tres anillos, 1 = uno solo
+
+let playButton, pauseButton, stopButton; // botones
 
 function preload() {
     soundFormats('mp3');
@@ -15,24 +16,58 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(800, 800);
+    createCanvas(1900, 800);
     colorMode(HSB);
     fft = new p5.FFT();
     socket = io();
 
     socket.on('message', handleTouch);
 
-    userStartAudio().then(() => {
+    // Creación de botones
+    playButton = createButton('▶');
+    pauseButton = createButton('⏸');
+    stopButton = createButton('⏹');
+    styleButton(playButton, width - 120, height / 2 - 100);
+    styleButton(pauseButton, width - 120, height / 2);
+    styleButton(stopButton, width - 120, height / 2 + 100);
+
+    playButton.mousePressed(() => {
         if (!song.isPlaying()) song.loop();
     });
+
+    pauseButton.mousePressed(() => {
+        if (song.isPlaying()) song.pause();
+    });
+
+    stopButton.mousePressed(() => {
+        song.stop();
+    });
+
+    userStartAudio();
+}
+
+function styleButton(btn, x, y) {
+  btn.position(x, y);
+  btn.size(60, 60);
+  btn.style('font-size', '28px');
+  btn.style('border', 'none');
+  btn.style('border-radius', '50%');
+  btn.style('background', 'rgba(100, 0, 200, 0.4)');
+  btn.style('color', 'white');
+  btn.style('cursor', 'pointer');
+  btn.style('backdrop-filter', 'blur(4px)');
+  btn.mouseOver(() => btn.style('background', 'rgba(150, 0, 255, 0.6)'));
+  btn.mouseOut(() => btn.style('background', 'rgba(100, 0, 200, 0.4)'));
 }
 
 function handleTouch(data) {
     if (data.type === 'touch') {
         if (data.direction === "left") hueShift -= 10;
         else if (data.direction === "right") hueShift += 10;
-        else if (data.direction === "down") fusion = true;
-        else if (data.direction === "up") fusion = false;
+    }
+
+    if (data.type === 'fusion') {
+        fusionValue = constrain(data.value, 0, 1);
     }
 }
 
@@ -48,14 +83,20 @@ function draw() {
     rotationAngles[1] -= 0.006;
     rotationAngles[2] += 0.007;
 
-    // Transición suave entre 3 y 1 espectro
-    if (fusion) transition = lerp(transition, 1, 0.05);
-    else transition = lerp(transition, 0, 0.05);
-
-    // Valores de transición
+    // Valores de fusión
+    let transition = lerp(0, 1, fusionValue);
     let mergeOffset = spacing * transition;
     let alphaOuter = 255 * (1 - transition);
     let scaleCentral = 1 + 0.4 * transition;
+
+    // Titulo
+    push();
+    resetMatrix(); // Volvemos al sistema original
+    textAlign(LEFT, CENTER);
+    textSize(64);
+    fill(255);
+    text("Pulse of BTS", 100, height / 2 - 25);
+    pop();
 
     // Dibujo de los tres anillos (se acercan al centro)
     if (transition < 0.98) {
