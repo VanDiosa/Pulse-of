@@ -38,9 +38,10 @@ Toma nota de la URL que te da Forward a port. Esta la necesitarás en el celular
 
 6. Abre la página web en el computador
 
-http://localhost:3000/desktop/
+```
+http://localhost:3000/desktop/    
 https://URL EN FORWARD A PORT/mobile/
-
+```
 
 ## Créditos 
 
