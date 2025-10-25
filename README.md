@@ -1,8 +1,8 @@
-# Pulse of Swan 🦢  
+#💜Pulse of BTS💜  
 
 ## Idea principal 🎵  
-**Pulse of Swan** es una experiencia visual inspirada en la delicadeza y el movimiento de una melodía suave y envolvente.  
-La aplicación conecta un dispositivo móvil y una pantalla de escritorio, donde los gestos del usuario generan transiciones y fusiones de color que acompañan el ritmo de la pieza.  
+**Pulse of BTS** es una experiencia visual inspirada en la delicadeza y el movimiento de unas melodías envolventes, con atmósferas contrastantes, de Black Swan y Fake Love de BTS. 
+La aplicación conecta un dispositivo móvil, un micro:bit y una pantalla de escritorio, generando una sincronía audiovisual donde cada gesto o movimiento transforma la composición en tiempo real.
 
 Cada deslizamiento produce un cambio: las capas se separan o se mezclan, los tonos varían y la composición responde de forma fluida, como si todo danzara al compás de una misma música.  
 El resultado es una fusión entre sonido, color y movimiento, que busca transmitir calma, fluidez y sincronía.  
@@ -10,11 +10,12 @@ El resultado es una fusión entre sonido, color y movimiento, que busca transmit
 ---
 
 ### Características principales ✨
-- Interacción en tiempo real entre móvil y escritorio mediante **socket.io**.  
-- Gestos verticales para **fundir o separar capas**.  
-- Gestos horizontales para **cambiar la gama de colores**.  
-- Transiciones visuales suaves inspiradas en la sensación del movimiento y la armonía musical.  
-- Diseño minimalista y contemplativo que acompaña el ritmo de la pieza sonora.  
+- Interacción en tiempo real entre móvil, micro:bit y escritorio mediante **socket.io**  
+- Gestos horizontales en el móvil para **cambiar la gama de colores**
+- Botón deslizante en la interfaz móvil para **fusionar o separar los espectros** (de tres a uno)
+- **Botones A y B** del micro:bit para alternar entre Black Swan y Fake Love
+- Transiciones visuales suaves inspiradas en la sensación del movimiento y la armonía musical  
+- Diseño minimalista, contrastante y expresivo que acompaña el ritmo de las piezas sonoras  
 
 ---
 
@@ -33,7 +34,7 @@ npm start
 
 5. Cambia la visibilidad de la URL expuesta a Public. Ten presente que si lo dejas Private tendrás que autenticarte con tus credenciales de github tanto en tu computador (sitio web de escritorio) como en tu celular (sitio web móvil)
 
-Toma nota de la URL que te da Forward a port. Esta la necesitarás en el celular.
+Toma nota de la URL que te da Forward a port. Esta la necesitarás en el celular
 
 6. Abre la página web en el computador
 
@@ -44,10 +45,11 @@ https://URL EN FORWARD A PORT/mobile/
 ## Créditos 
 
 Proyecto desarrollado por Vanesa Herrera como exploración artística de sincronía visual y musical entre dispositivos.
-Inspirado en la canción “Black Swan” de BTS, cuya atmósfera melódica y emocional sirvió como base conceptual.
+Inspirado en la canción “Black Swan” y "Fake Love" de BTS, cuyas atmósferas contrastantes dieron forma al concepto visual y emocional del proyecto
 
 Construido con:
 - Node.js
 - Express
 - Socket.io
 - p5.js
+- Micro:bit
