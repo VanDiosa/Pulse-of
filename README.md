@@ -1,11 +1,11 @@
-#💜Pulse of BTS💜  
+# 💜Pulse of BTS💜  
 
 ## Idea principal 🎵  
 **Pulse of BTS** es una experiencia visual inspirada en la delicadeza y el movimiento de unas melodías envolventes, con atmósferas contrastantes, de Black Swan y Fake Love de BTS. 
 La aplicación conecta un dispositivo móvil, un micro:bit y una pantalla de escritorio, generando una sincronía audiovisual donde cada gesto o movimiento transforma la composición en tiempo real.
 
-Cada deslizamiento produce un cambio: las capas se separan o se mezclan, los tonos varían y la composición responde de forma fluida, como si todo danzara al compás de una misma música.  
-El resultado es una fusión entre sonido, color y movimiento, que busca transmitir calma, fluidez y sincronía.  
+En el modo Black Swan, tres círculos concéntricos representan las capas del sonido (voz, altos y bajos), reaccionando al ritmo de la música con una estética oscura y envolvente.
+En el modo Fake Love, los espectros adoptan formas triangulares y el fondo cambia a blanco, generando una sensación de descomposición y contraste emocional.
 
 ---
 
