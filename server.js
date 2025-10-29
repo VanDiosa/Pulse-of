@@ -16,6 +16,11 @@ app.use(express.static('public'));
 const microbitPort = new SerialPort({ path: 'COM10', baudRate: 115200 }); //REVISAR SIEMPRE QUE SE CAMBIA DE MICROBIT Y MODIFICAR EL COM
 const parser = microbitPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
+// Vrbles acelerometro
+let lastX = 0, lastY = 0;
+let shakeThreshold = 500; // sensibilidad
+let lastShakeTime = 0;
+
 parser.on('data', (line) => { // separar los valores (botones y acelerometro)
     const [x, y, a, b] = line.trim().split(',');
     const data = {
@@ -27,6 +32,19 @@ parser.on('data', (line) => { // separar los valores (botones y acelerometro)
 
     if (data.buttonA) io.emit('microbit', { button: 'A' });
     if (data.buttonB) io.emit('microbit', { button: 'B' });
+
+    // Detectar acelerometro
+    const deltaX = Math.abs(data.x - lastX);
+    const deltaY = Math.abs(data.y - lastY);
+    const now = Date.now();
+
+    if ((deltaX > shakeThreshold || deltaY > shakeThreshold) && (now - lastShakeTime > 1000)) {
+        io.emit('microbit', { shake: true });
+        lastShakeTime = now;
+    }
+
+    lastX = data.x;
+    lastY = data.y;
 });
 
 // Socket.io

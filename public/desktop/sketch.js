@@ -11,6 +11,7 @@ let fusionValue = 0; // 0 = tres anillos, 1 = uno solo
 let currentMode = 'BlackSwan'; // Cancion inicial
 
 let playButton, pauseButton, stopButton; // Botones de reproduccion musica
+let pulses = []; // Efecto de ondas expansivas
 
 function preload() {
     soundFormats('mp3');
@@ -57,10 +58,21 @@ function setup() {
 
     userStartAudio();
 
-    // Microbit datos
+    // Microbit datos botones y acelerometro
     socket.on('microbit', (data) => {
         if (data.button === 'A') switchToFakeLove();
         if (data.button === 'B') switchToBlackSwan();
+
+        if (data.shake) {
+      for (let i = 0; i < 4; i++) {
+        pulses.push({
+          r: 0,
+          alpha: 255,
+          growSpeed: random(10, 25),
+          decaySpeed: random(3, 6)
+        });
+      }
+    }
     });
 
     // Mobile datos
@@ -170,6 +182,22 @@ function draw() {
         drawBars(spectrum, getRainbowColor(hueShift), (baseRadius + spacing) * scaleCentral, (baseRadius + spacing + 80) * scaleCentral, rotationAngles[1], map(transition,0,1,0,255));
         pop();
     }
+
+    // Ondas expansivas
+    push();
+    blendMode(ADD);
+    noFill();
+    for (let i = pulses.length - 1; i >= 0; i--) {
+        let p = pulses[i];
+        strokeWeight(3);
+        let col = currentMode === 'BlackSwan' ? color(200, 100, 100, p.alpha / 255) : color(330, 100, 100, p.alpha / 255);
+        stroke(col);
+        ellipse(0, 0, p.r * 2);
+        p.r += p.growSpeed;
+        p.alpha -= p.decaySpeed;
+        if (p.alpha <= 0) pulses.splice(i, 1);
+    }
+    pop();
 }
 
 // Dibujo de espectros: graves (interno), voces(medio), agudos(externo)
