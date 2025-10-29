@@ -1,4 +1,4 @@
-let songBlackSwan, songFakeLove, song;
+let songBlackSwan, songFakeLove;
 let fft;
 let socket;
 
@@ -25,6 +25,10 @@ function setup() {
     fft = new p5.FFT();
     socket = io();
 
+    // Preparacion volumen inicial canciones
+    songBlackSwan.setVolume(1);
+    songFakeLove.setVolume(0);
+
     // Botones de control
     playButton = createButton('▶');
     pauseButton = createButton('⏸');
@@ -34,9 +38,22 @@ function setup() {
     styleButton(pauseButton, width - 120, height / 2);
     styleButton(stopButton, width - 120, height / 2 + 100);
 
-    playButton.mousePressed(() => { if (!song.isPlaying()) song.loop(); });
-    pauseButton.mousePressed(() => { if (song.isPlaying()) song.pause(); });
-    stopButton.mousePressed(() => { song.stop(); });
+     playButton.mousePressed(() => {
+    if (!songBlackSwan.isPlaying() && !songFakeLove.isPlaying()) {
+      songBlackSwan.loop();
+      songFakeLove.loop();
+    }
+    });
+
+    pauseButton.mousePressed(() => {
+        songBlackSwan.pause();
+        songFakeLove.pause();
+    });
+
+    stopButton.mousePressed(() => {
+        songBlackSwan.stop();
+        songFakeLove.stop();
+    });
 
     userStartAudio();
 
@@ -64,25 +81,28 @@ function styleButton(btn, x, y) {
     btn.mouseOut(() => btn.style('background', 'rgba(100,0,200,0.4)'));
 }
 
+function crossfade(toMode) {
+  const fadeTime = 5.0; // Tiempo de fundido en segundos
+  if (toMode === 'FakeLove') {
+    songBlackSwan.amp(0, fadeTime);
+    songFakeLove.amp(1, fadeTime);
+  } else {
+    songBlackSwan.amp(1, fadeTime);
+    songFakeLove.amp(0, fadeTime);
+  }
+}
+
 function switchToFakeLove() {
     if (currentMode === 'FakeLove') return;
-    let currentTime = song.currentTime();
     currentMode = 'FakeLove';
-    song.stop();
-    song = songFakeLove;
-    song.jump(currentTime);
-    song.loop();
+    crossfade('FakeLove');
     hueShift = 0;
 }
 
 function switchToBlackSwan() {
     if (currentMode === 'BlackSwan') return;
-    let currentTime = song.currentTime();
     currentMode = 'BlackSwan';
-    song.stop();
-    song = songBlackSwan;
-    song.jump(currentTime);
-    song.loop();
+    crossfade('BlackSwan');
     hueShift = 0;
 }
 
@@ -120,6 +140,16 @@ function draw() {
     textSize(64);
     fill(255);
     text("Pulse of BTS", 100, height / 2 - 25);
+    pop();
+
+    // Texto informativo funcionamieno microbit
+    push();
+    resetMatrix();
+    textSize(22);
+    fill(200);
+    text("Controles Micro:bit:", 100, height / 2 + 40);
+    text("Botón A → Fake Love", 100, height / 2 + 80);
+    text("Botón B → Black Swan", 100, height / 2 + 110);
     pop();
 
     // Dibujo de los tres anillos (se acercan al centro)

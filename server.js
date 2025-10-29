@@ -13,7 +13,7 @@ const port = 3000;
 app.use(express.static('public'));
 
 // Microbit
-const microbitPort = new SerialPort({ path: 'COM8', baudRate: 115200 });
+const microbitPort = new SerialPort({ path: 'COM10', baudRate: 115200 }); //REVISAR SIEMPRE QUE SE CAMBIA DE MICROBIT Y MODIFICAR EL COM
 const parser = microbitPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 parser.on('data', (line) => { // separar los valores (botones y acelerometro)
