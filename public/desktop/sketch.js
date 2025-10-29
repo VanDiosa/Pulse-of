@@ -9,9 +9,15 @@ let spacing = 90;
 let fusionValue = 0; // 0 = tres anillos, 1 = uno solo
 
 let currentMode = 'BlackSwan'; // Cancion inicial
+let targetMode = 'BlackSwan';  // Transicion de fondo
 
 let playButton, pauseButton, stopButton; // Botones de reproduccion musica
 let pulses = []; // Efecto de ondas expansivas
+
+// Vrbles de transicion de color fondo
+let bgColor;
+let blackSwanColor;
+let fakeLoveColor
 
 function preload() {
     soundFormats('mp3');
@@ -25,6 +31,11 @@ function setup() {
     colorMode(HSB);
     fft = new p5.FFT();
     socket = io();
+
+    // Colores base de las canciones
+    blackSwanColor = color(230, 80, 10); // Azul oscuro tenue
+    fakeLoveColor = color(320, 90, 25);  // Magenta rojizo
+    bgColor = blackSwanColor;
 
     // Preparacion volumen inicial canciones
     songBlackSwan.setVolume(1);
@@ -106,14 +117,14 @@ function crossfade(toMode) {
 
 function switchToFakeLove() {
     if (currentMode === 'FakeLove') return;
-    currentMode = 'FakeLove';
+    targetMode = 'FakeLove';
     crossfade('FakeLove');
     hueShift = 0;
 }
 
 function switchToBlackSwan() {
     if (currentMode === 'BlackSwan') return;
-    currentMode = 'BlackSwan';
+    targetMode = 'BlackSwan';
     crossfade('BlackSwan');
     hueShift = 0;
 }
@@ -128,7 +139,13 @@ function handleTouch(data) {
 }
 
 function draw() {
-    background(currentMode === 'BlackSwan' ? 0 : color(280, 80, 30, 0.2));
+    // Suavizado del fondo entre canciones
+    let targetColor = targetMode === 'BlackSwan' ? blackSwanColor : fakeLoveColor;
+    bgColor = lerpColor(bgColor, targetColor, 0.02);
+    background(bgColor);
+    // Actualizar modo actual
+    if (abs(hue(bgColor) - hue(targetColor)) < 2) currentMode = targetMode;
+    
     translate(width / 2, height / 2); // Mover origen
     noFill();
 
