@@ -5,7 +5,7 @@
 La aplicación conecta un dispositivo móvil, un micro:bit y una pantalla de escritorio, generando una sincronía audiovisual donde cada gesto o movimiento transforma la composición en tiempo real.
 
 En el modo Black Swan, tres círculos concéntricos representan las capas del sonido (voz, altos y bajos), reaccionando al ritmo de la música con una estética oscura y envolvente.
-En el modo Fake Love, los espectros adoptan formas triangulares y el fondo cambia a blanco, generando una sensación de descomposición y contraste emocional.
+En el modo Fake Love, el fondo cambia de azul oscuro a magenta, generando una sensación de contraste emocional.
 
 ---
 
@@ -14,6 +14,7 @@ En el modo Fake Love, los espectros adoptan formas triangulares y el fondo cambi
 - Gestos horizontales en el móvil para **cambiar la gama de colores**
 - Botón deslizante en la interfaz móvil para **fusionar o separar los espectros** (de tres a uno)
 - **Botones A y B** del micro:bit para alternar entre Black Swan y Fake Love
+- **Acelerometro** del micro:bit para generar unos aros de luz desde el centro que se expanden por la pantalla 
 - Transiciones visuales suaves inspiradas en la sensación del movimiento y la armonía musical  
 - Diseño minimalista, contrastante y expresivo que acompaña el ritmo de las piezas sonoras  
 
